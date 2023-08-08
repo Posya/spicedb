@@ -2,14 +2,15 @@
 // of this source code is governed by a BSD-style license that can be found in
 // the LICENSE file.
 
+//go:build jemalloc
 // +build jemalloc
 
 package z
 
 /*
-#cgo LDFLAGS: /usr/local/lib/libjemalloc.a -L/usr/local/lib -Wl,-rpath,/usr/local/lib -ljemalloc -lm -lstdc++ -pthread -ldl
+#cgo LDFLAGS: /usr/local/lib/libjemalloc_outcaste.a -L/usr/local/lib -Wl,-rpath,/usr/local/lib -ljemalloc_outcaste -lm -lstdc++ -pthread -ldl
 #include <stdlib.h>
-#include <jemalloc/jemalloc.h>
+#include <jemalloc/jemalloc_outcaste.h>
 */
 import "C"
 import (
@@ -161,7 +162,7 @@ func fetchStat(s string) uint64 {
 		unsafe.Pointer(&out),             // Variable to store the output.
 		(*C.size_t)(unsafe.Pointer(&sz)), // Size of the output variable.
 		nil,                              // Input variable used to set a value.
-		0) // Size of the input variable.
+		0)                                // Size of the input variable.
 	return out
 }
 
